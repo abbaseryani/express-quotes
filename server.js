@@ -42,6 +42,16 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                 })
                 .catch(error => console.error(error))
         })
+        app.delete('/quotes', (req, res) => {
+            quotesCollection.findOneAndDelete({ name: req.body.name })
+                .then(result => {
+                    if (result.deletedCount === 0) {
+                        return res.json('No quotes to delete');
+                    }
+                    res.json('Deleted Abbas quote');
+                })
+                .catch(error => console.error(error))
+        });
         app.listen(3000, () => {});
     })
     .catch(error => console.error(error))
